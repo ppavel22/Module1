@@ -51,17 +51,19 @@ class EditContactViewController: UIViewController {
     
     private func setupUI() {
         if isEditMode {
-            modeButton.title = "Save"
+            modeButton.title = "Edit"
         } else {
             modeButton.title = "Add"
             deleteButton.isHidden = true
         }
         if let contact = contact {
-            firstNameField.text = contact.firstName
-            lastNameField.text = contact.lastName
+            firstNameField.text = contact.name
+            lastNameField.text = contact.surname
             emailField.text = contact.email
-            phoneNumberField.text = contact.phoneNumber
-            ibImageView.image = contact.image
+            phoneNumberField.text = contact.phone
+            if let image = contact.image {
+                ibImageView.image = UIImage(data: image as Data)
+            }
         }
         firstNameField.tag = 0
         lastNameField.tag = 1
@@ -101,21 +103,33 @@ class EditContactViewController: UIViewController {
     }
     
     private func setupContactInfo(_ contact: Contact?) {
-        guard var currentContact = contact else { return }
+        
         let newName = firstNameField.text ?? ""
         guard !newName.isEmpty else {
-            showAlert(withTitle: "Alert", message: "Required fields have to be filled", buttonTitle: "OK")
+            showAlert(withTitle: "Alert", message: "Required fields not filled", buttonTitle: "OK")
             return
         }
-        let newSirname = lastNameField.text ?? ""
-        guard !newSirname.isEmpty else {
-            showAlert(withTitle: "Alert", message: "Required fields have to be filled", buttonTitle: "OK")
+        let newSurname = lastNameField.text ?? ""
+        guard !newSurname.isEmpty else {
+            showAlert(withTitle: "Alert", message: "Required fields not filled", buttonTitle: "OK")
             return
         }
-        currentContact.firstName = newName
-        currentContact.lastName = newSirname
-        currentContact.image = ibImageView.image ?? #imageLiteral(resourceName: "user-5")
-        isEditMode ? DataManager.instance.editContact(currentContact) : DataManager.instance.addContact(currentContact)
+        let newPhoneNumber = phoneNumberField.text ?? ""
+        let newEmail = emailField.text ?? ""
+        var imageData: NSData?
+        if let image = ibImageView.image {
+            imageData = UIImagePNGRepresentation(image) as NSData?
+        }
+        
+        if isEditMode {
+            guard let currentContact = contact else { return }
+            currentContact.name = newName
+            currentContact.surname = newSurname
+            currentContact.image = imageData
+            DataManager.instance.editContact(currentContact)
+        } else {
+            DataManager.instance.addContact(name: newName, surname: newSurname, email: newEmail, phone: newPhoneNumber, image: imageData)
+        }
     }
     func openGallary() {
         picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
@@ -133,7 +147,6 @@ class EditContactViewController: UIViewController {
     
     private func openCamera() {
         picker.sourceType = UIImagePickerControllerSourceType.camera
-        self .present(picker, animated: true, completion: nil)
     }
     
     // MARK: - Private actions
@@ -145,12 +158,7 @@ class EditContactViewController: UIViewController {
     }
     
     @IBAction private func barButtonItemPressed(_ sender: UIBarButtonItem) {
-        if isEditMode {
-            setupContactInfo(contact)
-        } else {
-            let newContact = Contact(firstName: "", lastName: "")
-            setupContactInfo(newContact)
-        }
+        setupContactInfo(contact)
         navigationController?.popViewController(animated: true)
     }
     

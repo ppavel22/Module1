@@ -225,7 +225,7 @@
                                                 <color key="backgroundColor" red="1" green="0.26188491930000002" blue="0.053483827329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="6Yo-7F-0iy"/>
-                                                    <constraint firstAttribute="width" constant="80" id="t4o-FC-ItI"/>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="t4o-FC-ItI"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <state key="normal" title="Delete">

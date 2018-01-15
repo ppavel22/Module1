@@ -12,7 +12,10 @@
 		04171E1E1FE6E39800E06284 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04171E1D1FE6E39800E06284 /* Extensions.swift */; };
 		0453D7CE1FDD940A001DBA90 /* ContactListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0453D7CD1FDD940A001DBA90 /* ContactListTableViewController.swift */; };
 		0453D7D01FDDB41F001DBA90 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0453D7CF1FDDB41F001DBA90 /* DataManager.swift */; };
-		0453D7D21FDDB4AE001DBA90 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0453D7D11FDDB4AE001DBA90 /* Contact.swift */; };
+		049F0027200BE1A60037448B /* ModuleTasklSpalah.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 049F0025200BE1A60037448B /* ModuleTasklSpalah.xcdatamodeld */; };
+		049F002A200BE2860037448B /* Contact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049F0028200BE2860037448B /* Contact+CoreDataClass.swift */; };
+		049F002B200BE2860037448B /* Contact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049F0029200BE2860037448B /* Contact+CoreDataProperties.swift */; };
+		049F002D200BE4440037448B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049F002C200BE4440037448B /* CoreDataManager.swift */; };
 		04A57F971FB0D1200082EDC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A57F961FB0D1200082EDC7 /* AppDelegate.swift */; };
 		04A57F9C1FB0D1200082EDC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04A57F9A1FB0D1200082EDC7 /* Main.storyboard */; };
 		04A57F9E1FB0D1200082EDC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A57F9D1FB0D1200082EDC7 /* Assets.xcassets */; };
@@ -26,7 +29,10 @@
 		04171E1D1FE6E39800E06284 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		0453D7CD1FDD940A001DBA90 /* ContactListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListTableViewController.swift; sourceTree = "<group>"; };
 		0453D7CF1FDDB41F001DBA90 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		0453D7D11FDDB4AE001DBA90 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		049F0026200BE1A60037448B /* ModuleTasklSpalah.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ModuleTasklSpalah.xcdatamodel; sourceTree = "<group>"; };
+		049F0028200BE2860037448B /* Contact+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataClass.swift"; sourceTree = "<group>"; };
+		049F0029200BE2860037448B /* Contact+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		049F002C200BE4440037448B /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		04A57F931FB0D1200082EDC7 /* ModuleTasklSpalah.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ModuleTasklSpalah.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04A57F961FB0D1200082EDC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04A57F9B1FB0D1200082EDC7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -61,8 +67,9 @@
 		049899121FC1FD4400EBFAF2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				049F002C200BE4440037448B /* CoreDataManager.swift */,
+				049F0028200BE2860037448B /* Contact+CoreDataClass.swift */,
 				0453D7CF1FDDB41F001DBA90 /* DataManager.swift */,
-				0453D7D11FDDB4AE001DBA90 /* Contact.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -96,6 +103,15 @@
 			name = "Supporting files";
 			sourceTree = "<group>";
 		};
+		049F0024200BE14A0037448B /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				049F0029200BE2860037448B /* Contact+CoreDataProperties.swift */,
+				049F0025200BE1A60037448B /* ModuleTasklSpalah.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		04A57F8A1FB0D1200082EDC7 = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +133,7 @@
 		04A57F951FB0D1200082EDC7 /* ModuleTasklSpalah */ = {
 			isa = PBXGroup;
 			children = (
+				049F0024200BE14A0037448B /* CoreData */,
 				04171E181FE6E2C600E06284 /* Ext */,
 				049899121FC1FD4400EBFAF2 /* Model */,
 				049899141FC1FD5C00EBFAF2 /* Views */,
@@ -285,12 +302,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				04171E171FE6B2D500E06284 /* EditContactViewController.swift in Sources */,
-				0453D7D21FDDB4AE001DBA90 /* Contact.swift in Sources */,
 				0453D7CE1FDD940A001DBA90 /* ContactListTableViewController.swift in Sources */,
 				0453D7D01FDDB41F001DBA90 /* DataManager.swift in Sources */,
+				049F002A200BE2860037448B /* Contact+CoreDataClass.swift in Sources */,
+				049F0027200BE1A60037448B /* ModuleTasklSpalah.xcdatamodeld in Sources */,
 				04171E1A1FE6E30E00E06284 /* ContactListTableViewCell.swift in Sources */,
 				04A57F971FB0D1200082EDC7 /* AppDelegate.swift in Sources */,
+				049F002B200BE2860037448B /* Contact+CoreDataProperties.swift in Sources */,
 				04171E1E1FE6E39800E06284 /* Extensions.swift in Sources */,
+				049F002D200BE4440037448B /* CoreDataManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,6 +495,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		049F0025200BE1A60037448B /* ModuleTasklSpalah.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				049F0026200BE1A60037448B /* ModuleTasklSpalah.xcdatamodel */,
+			);
+			currentVersion = 049F0026200BE1A60037448B /* ModuleTasklSpalah.xcdatamodel */;
+			path = ModuleTasklSpalah.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 04A57F8B1FB0D1200082EDC7 /* Project object */;
 }

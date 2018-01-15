@@ -18,8 +18,13 @@ class ContactListTableViewController: UIViewController {
             tableView.reloadData()
         }
     }
+    private var massOfLetters: [String] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
-    private var filteredData: [Contact] = []
+    private var newData: [Contact] = []
     private var isSearchActive: Bool = false
     
     override func viewDidLoad() {
@@ -66,7 +71,9 @@ class ContactListTableViewController: UIViewController {
     }
     
     private func setupDatasource() {
+        loadData()
         datasource = DataManager.instance.contactsStorage
+        massOfLetters = DataManager.instance.massOfLetters
         updateSearchContentIfNeeded()
     }
     
@@ -79,13 +86,11 @@ class ContactListTableViewController: UIViewController {
     
     private func filteredContent(byName name: String) {
         isSearchActive = !name.isEmpty
-        filteredData = []
-        let allContacts = Array(datasource.values)
-        for array in allContacts {
-            for contact in array {
-                if contact.fullName.lowercased().contains(name.lowercased()) {
-                    filteredData.append(contact)
-                }
+        newData = []
+        
+        for contact in DataManager.instance.allContacts {
+            if contact.fullName.lowercased().contains(name.lowercased()) {
+                newData.append(contact)
             }
         }
         tableView.reloadData()
@@ -93,31 +98,33 @@ class ContactListTableViewController: UIViewController {
     
     private func getContact(for indexPath: IndexPath) -> Contact? {
         if !isSearchActive {
-            let key = DataManager.instance.massOfLetters[indexPath.section]
+            let key = massOfLetters[indexPath.section]
             let contactForSection = datasource[key]
             return contactForSection?[indexPath.row]
         } else {
-            return filteredData[indexPath.row]
+            return newData[indexPath.row]
         }
     }
-    
+    private func loadData() {
+        DataManager.instance.loadData()
+    }
 }
 
 // MARK: - UITableViewDataSourse
 
 extension ContactListTableViewController: UITableViewDelegate, UITableViewDataSource {
     
-     func numberOfSections(in tableView: UITableView) -> Int {
-        return isSearchActive ? 1 : DataManager.instance.massOfLetters.count
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return isSearchActive ? 1 : massOfLetters.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if !isSearchActive {
-            let key = DataManager.instance.massOfLetters[section]
+            let key = massOfLetters[section]
             let contactForSection = datasource[key] ?? []
             return contactForSection.count
         } else {
-            return filteredData.count
+            return newData.count
         }
     }
     
@@ -126,14 +133,16 @@ extension ContactListTableViewController: UITableViewDelegate, UITableViewDataSo
             fatalError("Error: Cell doesn't exist")
         }
         guard let item = getContact(for: indexPath) else {
-            fatalError("Error: City has wrong index path")
+            fatalError("Error: Cell has wrong index path")
         }
-        cell.update(firstName: item.firstName, lastName: item.lastName)
+        if let firstName = item.name, let lastName = item.surname {
+            cell.update(firstName: firstName, lastName: lastName)
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return isSearchActive ? "search" : DataManager.instance.massOfLetters[section]
+        return isSearchActive ? "search" : massOfLetters[section]
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -141,6 +150,7 @@ extension ContactListTableViewController: UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        guard editingStyle == .delete else { return }
         guard let item = getContact(for: indexPath) else { return }
         DataManager.instance.deleteContact(item)
     }
@@ -176,7 +186,7 @@ extension ContactListTableViewController {
 
 // MARK: - UISearchBarDelegate
 
-extension ContactListTableViewController : UISearchBarDelegate {
+extension ContactListTableViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filteredContent(byName: searchText)
     }
